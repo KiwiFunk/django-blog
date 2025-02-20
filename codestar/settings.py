@@ -64,6 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATES_DIR],
+        #Tells Django to look for templates in the apps.
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
