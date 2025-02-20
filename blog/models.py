@@ -15,9 +15,22 @@ class Post(models.Model):
     excerpt = models.TextField(blank=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return f"{self.title} || {self.author}"
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.RESTRICT, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.RESTRICT, related_name='commenter')
     body = models.TextField()
     approved = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        #Limit the length of the comment to 40 characters. Append '...' if the comment is longer than 40 characters.
+        return f"{self.author} commented: {self.body[:40]}{'...' if len(self.body) > 40 else ''}"
