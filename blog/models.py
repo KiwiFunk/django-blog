@@ -34,3 +34,4 @@ class Comment(models.Model):
     def __str__(self):
         #Limit the length of the comment to 40 characters. Append '...' if the comment is longer than 40 characters.
         return f"{self.author} commented: {self.body[:40]}{'...' if len(self.body) > 40 else ''}"
+    
