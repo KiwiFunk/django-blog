@@ -21,5 +21,7 @@ urlpatterns = [
     #path('blog/', blog_views.hello, name='hello_blog'),
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
+    path("about/", include("about.urls"), name='about_urls'),
     path("", include("blog.urls"), name='blog_urls'),
+    
 ]
