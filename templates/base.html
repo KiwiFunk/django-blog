@@ -77,6 +77,18 @@
             </div>
         </div>
     </nav>
+    <!-- Display Logged In status -->
+    <span>
+        <p class="text-end m-3">
+            {% if user.is_authenticated %}
+            You are Logged In as <strong>{{ user.username }}</strong>
+            {% else %}
+            You are not Logged In
+            {% endif %}
+        </p>
+    </span>
+
+    <!-- Main Content -->
 
     <main class="flex-shrink-0 main-bg">
 
