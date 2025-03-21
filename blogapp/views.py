@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 class HomeView(ListView):                       # ListView is used to display a list of objects.
     model = Post                                # The model that this view will use to query the database.
     template_name = 'home.html'                 # The template that this view will use to generate the HTML.
+    ordering = ['-created_at']                  # The order in which the posts will be displayed on the home page.
 
 class PostDetailView(DetailView):               # DetailView is used to display a single object in detail.
     model = Post
