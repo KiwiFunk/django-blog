@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post
 from .forms import PostForm
 
@@ -19,3 +19,7 @@ class CreatePostView(CreateView):               # CreateView is used to create a
     template_name = 'create_post.html'          # The template that this view will use to generate the HTML.
     # Fields are now defined in forms.py
      
+class UpdatePostView(UpdateView):               # UpdateView is used to update an existing post object.
+    model = Post
+    template_name = 'update_post.html'          # The template that this view will use to generate the HTML.
+    fields = ['title', 'title_tag', 'summary', 'body']
