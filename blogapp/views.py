@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm, EditForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -27,4 +28,4 @@ class UpdatePostView(UpdateView):               # UpdateView is used to update a
 class DeletePostView(DeleteView):               # DeleteView is used to delete an existing post object.
     model = Post
     template_name = 'delete_post.html'          # The template that this view will use to generate the HTML.
-    success_url = '/'                           # Redirect to the home page after deleting the post.
+    success_url = reverse_lazy('home')          # Redirect to the home page after deleting the post.
