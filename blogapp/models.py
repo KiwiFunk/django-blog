@@ -9,4 +9,4 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)            # The date and time the post was created.           
 
     def __str__(self):
-        return self.title + ' | ' + self.author                     # Assign a string representation for each post object. This will be used in the admin panel. This will show the title of the post and the author's username.
+        return self.title + ' | ' + str(self.author)                # Assign a string representation for each post object. This will be used in the admin panel. This will show the title of the post and the author's username.
