@@ -1,7 +1,7 @@
 <h1>Blog Posts:</h1>
 
 {% for post in object_list %}
-    <a href="{ % url 'post_details' post.pk % }"><h2>{{ post.title }}</h2></a>      #Use Django's url template tag to create a link to the post_details view we defined in the urls.py file.
+    <a href="{% url 'post_details' post.pk %}"><h2>{{ post.title }}</h2></a>      #Use Django's url template tag to create a link to the post_details view we defined in the urls.py file.
     <h4>Author: {{ post.author }}</h4>
     <h5>Published: {{ post.created_at }}</h5>
     <p>{{ post.body }}</p>
