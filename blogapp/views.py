@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .forms import PostForm, EditForm
 
@@ -23,3 +23,8 @@ class UpdatePostView(UpdateView):               # UpdateView is used to update a
     model = Post
     form_class = EditForm                       # The form that this view will use to generate the form fields.
     template_name = 'update_post.html'          # The template that this view will use to generate the HTML.
+
+class DeletePostView(DeleteView):               # DeleteView is used to delete an existing post object.
+    model = Post
+    template_name = 'delete_post.html'          # The template that this view will use to generate the HTML.
+    success_url = '/'                           # Redirect to the home page after deleting the post.
