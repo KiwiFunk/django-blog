@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Post | {% endblock %}
+{% block title %}Editing {% post.title %} | {% endblock %}
 
 {% block content %}
 
-<h2 class="mb-5">Create post:</h2>
+<h2 class="mb-5">Edit post:</h2>
 
 <form method="POST">
     {% csrf_token %}
     <div class="form-group mb-5">
         {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
-        <button class="btn btn-secondary">Post</button>
+        <button class="btn btn-secondary">Save Changes</button>
     </div>
 </form>
 
