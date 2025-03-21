@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post
+from .forms import PostForm
 
 # Create your views here.
 
@@ -14,11 +15,7 @@ class PostDetailView(DetailView):               # DetailView is used to display 
 
 class CreatePostView(CreateView):               # CreateView is used to create a new post object.
     model = Post
+    form_class = PostForm                       # The form that this view will use to generate the form fields.
     template_name = 'create_post.html'          # The template that this view will use to generate the HTML.
-    fields = [                                  # The fields that will be displayed in the form.
-        'title', 
-        'title_tag', 
-        'author', 
-        'summary', 
-        'body',
-    ]  
+    # Fields are now defined in forms.py
+     

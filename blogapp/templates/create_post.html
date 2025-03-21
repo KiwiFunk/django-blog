@@ -8,8 +8,8 @@
 
 <form method="POST">
     {% csrf_token %}
-    <div class="container">
-        {{ form.as_p }}
+    <div class="form-group">
+        {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
         <button class="btn btn-secondary">Post</button>
     </div>
 </form>
