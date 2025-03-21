@@ -11,8 +11,11 @@
 {% block content %}
 
 <h1>{{post.title}}</h1>
-<h4>Author: {{post.author}}</h4>
-<h5>Published: {{post.created_at}}</h5>
+<h5>By: {{post.author}}</h5>
+<div class="d-flex align-items-end">
+    <h6 class="w-100">Published: {{post.created_at}}</h6>
+    <a href="#" class="flex-shrink-1 btn btn-secondary">Edit</a>
+</div>
 <hr>
 <br/>
 <p>{{post.body}}</p>
