@@ -401,3 +401,5 @@ FodyWeavers.xsd
 
 # User
 docs/private
+db.sqlite3
+*.sqlite3
