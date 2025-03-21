@@ -14,7 +14,10 @@
 <h5>By: {{post.author}}</h5>
 <div class="d-flex align-items-end">
     <h6 class="w-100">Published: {{post.created_at}}</h6>
-    <a href="{% url 'edit_post' post.pk %}" class="flex-shrink-1 btn btn-secondary">Edit</a>
+    <div class="flex-shrink-1 d-flex gap-2">
+        <a href="{% url 'edit_post' post.pk %}" class="btn btn-secondary">Edit</a>
+        <a href="" class="btn btn-danger">Delete</a>
+    </div>
 </div>
 <hr>
 <br/>
