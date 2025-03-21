@@ -7,7 +7,7 @@ class PostForm(forms.ModelForm):            #ModelForm allows for creating form 
         fields = ['title', 'title_tag', 'author', 'summary', 'body']  
 
         # Using form-control class from Bootstrap to style the form fields.
-        widget = {
+        widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}),
             'title_tag': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Browser tab title (Optional)'}),
             'author': forms.Select(attrs={'class': 'form-control'}),
