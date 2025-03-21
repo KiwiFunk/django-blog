@@ -2,6 +2,13 @@
 
 {% block content %}
 
-<h2>Create a new post:</h2>
+<h2 class="mb-5">Create post:</h2>
+
+<from method="POST">
+    {% csrf_token %}                {# Add the CSRF token to the form. To prevent Cross-Site Request Forgery (CSRF) attacks. #}
+    <div class="container">
+        {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-secondary">Post</button>
 
 {% endblock %}

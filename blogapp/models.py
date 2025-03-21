@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class Post(models.Model):
@@ -13,4 +14,8 @@ class Post(models.Model):
     # Assign a string representation for each post object. This will be used in the admin panel. 
     # This will show the title of the post and the author's username.
     def __str__(self):
-        return self.title + ' | ' + str(self.author)                        
+        return self.title + ' | ' + str(self.author) 
+
+    def get_absolute_url(self):
+        return reverse('post_details', args=[str(self.id)])                 # Redirect to the post details page after creating a new post.
+        
