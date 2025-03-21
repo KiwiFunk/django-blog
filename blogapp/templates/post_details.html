@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 <h1>{{post.title}}</h1>
 <h4>Author: {{post.author}}</h4>
 <h5>Published: {{post.created_at}}</h5>
@@ -6,4 +10,6 @@
 <p>{{post.body}}</p>
 
 <br/>
-<a href="{% url 'home' %}">Back to all posts</a>
+<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}
