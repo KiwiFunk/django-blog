@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import HomeView
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', HomeView.as_view(), name='home'),          #Call as_view() method to return a callable view that takes a request and returns a response.
 ]
