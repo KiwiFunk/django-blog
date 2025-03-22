@@ -4,6 +4,9 @@ from django.urls import reverse
 
 # Create your models here.
 class Category(models.Model):
+    class Meta:
+        verbose_name_plural = 'categories'                                 # Assign a plural name to prevent default pluralization of the model name. (Catagory(s))
+
     name = models.CharField(max_length=255)                                # The name of the category.
     
     def __str__(self):
