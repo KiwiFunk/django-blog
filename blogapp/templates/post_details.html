@@ -13,7 +13,7 @@
 <h1>{{post.title}}</h1>
 <h5>By: {{post.author}}</h5>
 <div class="d-flex align-items-end">
-    <h6 class="w-100">Published: {{post.created_at}}</h6>
+    <h6 class="w-100">Published: {{post.created_at|date:"DATE_FORMAT"}}</h6>
     <div class="flex-shrink-1 d-flex gap-2">
         <a href="{% url 'edit_post' post.pk %}" class="btn btn-secondary">Edit</a>
         <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
