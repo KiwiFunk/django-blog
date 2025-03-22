@@ -7,15 +7,25 @@ Editing {{ post.title }} |
 {% block content %}
 
 {% if user.is_authenticated %}
-<h2 class="mb-5">Edit post:</h2>
 
-<form method="POST">
-    {% csrf_token %}
-    <div class="form-group mb-5">
-        {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
-        <button class="btn btn-secondary">Save Changes</button>
-    </div>
-</form>
+    {% if user.id == post.author.id %}
+
+        <h2 class="mb-5">Edit post:</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group mb-5">
+                {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
+                <button class="btn btn-secondary">Save Changes</button>
+            </div>
+        </form>
+    {% else %}
+
+        <h3>ERROR</h3>
+        <h4 class="mb-5">You can only edit your own posts. If you are an Admin, please use the admin panel to perform administration tasks.</h4>
+
+    {% endif %}
+
 {% else %}
 <h4 class="mb-5">You must be logged in to edit a post.</h4>
 {% endif %}
