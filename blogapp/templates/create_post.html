@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <h2 class="mb-5">Create post:</h2>
 
 <form method="POST">
@@ -13,5 +14,8 @@
         <button class="btn btn-secondary">Post</button>
     </div>
 </form>
+{% else %}
+<h4 class="mb-5">You must be logged in to create a post.</h4>
+{% endif %}
 
 {% endblock %}

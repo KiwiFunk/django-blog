@@ -6,6 +6,7 @@ Editing {{ post.title }} |
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <h2 class="mb-5">Edit post:</h2>
 
 <form method="POST">
@@ -15,5 +16,8 @@ Editing {{ post.title }} |
         <button class="btn btn-secondary">Save Changes</button>
     </div>
 </form>
+{% else %}
+<h4 class="mb-5">You must be logged in to edit a post.</h4>
+{% endif %}
 
 {% endblock %}

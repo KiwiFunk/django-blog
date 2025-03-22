@@ -6,6 +6,7 @@ DELETE POST |
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <h2 class="mb-5">Delete post:</h2>
 
 <h4 class="mb-3">Deleting <em>{{ post.title }}</em></h4>
@@ -19,5 +20,8 @@ DELETE POST |
         </div>
     </div>
 </form>
+{% else %}
+<h4 class="mb-5">You must be logged in to delete a post.</h4>
+{% endif %}
 
 {% endblock %}
