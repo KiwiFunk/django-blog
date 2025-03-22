@@ -32,8 +32,8 @@ class DeletePostView(DeleteView):               # DeleteView is used to delete a
     success_url = reverse_lazy('home')          # Redirect to the home page after deleting the post.
 
 def CategoryView(request, cat):
-    category_posts = Post.objects.filter(category__iexact=cat).order_by('-created_at')
+    category_posts = Post.objects.filter(category__iexact=cat.replace('-', ' ')).order_by('-created_at')
     return render(request, 'categories.html', {
-        'cats': cat,
+        'cats': cat.replace('-', ' ').title(),
         'category_posts': category_posts
     })
