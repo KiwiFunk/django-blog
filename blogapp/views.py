@@ -16,7 +16,7 @@ class HomeView(ListView):                       # ListView is used to display a 
         Get the context data for the home page. This will include the category menu.
         1. Since Category only has one field, we can get all the objects and store them in cat_menu.
         2. Use super to call the parent class of HomeView (ListView) and get the context data to create a context dictionary.
-        args mostly acts as a placeholder here, but kwargs will contain data such as objects, pk, etc. (keyword arguments)
+            (args mostly acts as a placeholder here, but kwargs will contain data such as objects, pk, etc. (keyword arguments))
         3. Add the cat_menu to the context dictionary.
         4. Return the context dictionary. We can now use cat_menu to access the categories in the template.
         """

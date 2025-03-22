@@ -35,8 +35,9 @@
                                 Categories
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                {% for item in cat_menu %}
+                                <li><a class="dropdown-item" href="{% url 'category' item|lower|slugify %}">{{ item }}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>
