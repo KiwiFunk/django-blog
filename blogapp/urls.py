@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView, PostDetailView, CreatePostView, UpdatePostView, DeletePostView, CategoryView, LikeView
+from .views import HomeView, PostDetailView, CreatePostView, UpdatePostView, DeletePostView, CategoryView, LikeView, DislikeView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),                                  #Call as_view() method to return a callable view that takes a request and returns a response.
@@ -9,4 +9,5 @@ urlpatterns = [
     path('post/<int:pk>/remove', DeletePostView.as_view(), name='delete_post'), #Delete an existing post.
     path('category/<str:cat>', CategoryView, name='category'),                  #Filter posts by category.
     path('like/<int:pk>', LikeView, name='like_post'),                          #Like a post.
+    path('dislike/<int:pk>', DislikeView, name='dislike_post'),                 #Dislike a post.
 ]

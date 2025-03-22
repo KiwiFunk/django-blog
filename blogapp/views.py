@@ -48,5 +48,18 @@ def LikeView(request, pk):
         post.likes.remove(request.user)         # Unlike if already liked
     else:
         post.likes.add(request.user)            # Like if not already liked
+        if request.user in post.dislikes.all():
+            post.dislikes.remove(request.user)  # Remove dislike if exists
+    
+    return HttpResponseRedirect(reverse('post_details', args=[str(pk)]))
+
+def DislikeView(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.user in post.dislikes.all():
+        post.dislikes.remove(request.user)      # Remove dislike
+    else:
+        post.dislikes.add(request.user)         # Add dislike
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)     # Remove like if exists
     
     return HttpResponseRedirect(reverse('post_details', args=[str(pk)]))

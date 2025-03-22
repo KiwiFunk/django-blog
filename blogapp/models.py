@@ -24,9 +24,13 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)                    # The date and time the post was created.     
     category = models.CharField(max_length=255, default='Uncategorized')    # The category of the post.
     likes = models.ManyToManyField(User, related_name='blog_posts')         # Users that liked the post. A user can like multiple posts & a post can be liked by multiple users. == ManyToMany relationship.   
+    dislikes = models.ManyToManyField(User, related_name='blog_posts_dislikes') # Users that disliked the post.
 
     def total_likes(self):
         return self.likes.count()                                           # Return the total number of likes for the post.
+
+    def total_dislikes(self):
+        return self.dislikes.count()                                        # Return the total number of dislikes for the post.
 
 
     # Assign a string representation for each post object. This will be used in the admin panel. 

@@ -15,8 +15,8 @@
 <div class="d-flex align-items-end">
     <h6 class="w-100">{{ post.category }} | Published: {{post.created_at|date:"DATE_FORMAT"}}</h6>
 
-    <!-- Likes Section -->
-    <div>
+    <!-- Likes/Dislikes Section -->
+    <div class="d-flex gap-3">
         {% if user.is_authenticated %}
             <form action="{% url 'like_post' post.pk %}" method="POST" class="d-inline">
                 {% csrf_token %}
@@ -29,10 +29,23 @@
                     {{ post.total_likes }}
                 </button>
             </form>
+            <form action="{% url 'dislike_post' post.pk %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link text-decoration-none">
+                    {% if user in post.dislikes.all %}
+                        <i class="bi bi-hand-thumbs-down-fill text-danger"></i>
+                    {% else %}
+                        <i class="bi bi-hand-thumbs-down text-danger"></i>
+                    {% endif %}
+                    {{ post.total_dislikes }}
+                </button>
+            </form>
         {% else %}
             <span class="text-muted">
-                <i class="bi bi-hand-thumbs-up"></i>
-                {{ post.total_likes }}
+                <i class="bi bi-hand-thumbs-up"></i> {{ post.total_likes }}
+            </span>
+            <span class="text-muted">
+                <i class="bi bi-hand-thumbs-down"></i> {{ post.total_dislikes }}
             </span>
         {% endif %}
     </div>
