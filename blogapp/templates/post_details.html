@@ -14,7 +14,7 @@
 <h5>By: {{post.author}}</h5>
 <div class="d-flex align-items-end">
     <h6 class="w-100">{{ post.category }} | Published: {{post.created_at|date:"DATE_FORMAT"}}</h6>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user.id == post.author.id %}
     <div class="flex-shrink-1 d-flex gap-2">
         <a href="{% url 'edit_post' post.pk %}" class="btn btn-secondary">Edit</a>
         <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
