@@ -23,7 +23,7 @@
 </div>
 <hr>
 <br/>
-<p>{{post.body}}</p>
+<p>{{post.body|safe }}</p>
 
 <br/>
 <a href="{% url 'home' %}" class="mb-5 btn btn-secondary">Back</a>
