@@ -20,6 +20,10 @@ class CreatePostView(CreateView):               # CreateView is used to create a
     form_class = PostForm                       # The form that this view will use to generate the form fields.
     template_name = 'create_post.html'          # The template that this view will use to generate the HTML.
     # Fields are now defined in forms.py
+
+    def form_valid(self, form):                     # This method is called when valid form data has been POSTed.
+        form.instance.author = self.request.user    # Set the author of the post to the current user.
+        return super().form_valid(form)             # Call the parent class(CreateView)'s form_valid() method and pass form data as arg.
      
 class UpdatePostView(UpdateView):               # UpdateView is used to update an existing post object.
     model = Post
