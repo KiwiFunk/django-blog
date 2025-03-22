@@ -4,6 +4,9 @@ from django.urls import reverse
 
 # Create your models here.
 class Category(models.Model):
+    """
+    Categories can be added in the admin panel by superusers. Our create/edit forms will be dynamically populated with the categories.
+    """
     class Meta:
         verbose_name_plural = 'categories'                                 # Assign a plural name to prevent default pluralization of the model name. (Catagory(s))
 
