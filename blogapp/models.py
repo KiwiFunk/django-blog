@@ -25,6 +25,10 @@ class Post(models.Model):
     category = models.CharField(max_length=255, default='Uncategorized')    # The category of the post.
     likes = models.ManyToManyField(User, related_name='blog_posts')         # Users that liked the post. A user can like multiple posts & a post can be liked by multiple users. == ManyToMany relationship.   
 
+    def total_likes(self):
+        return self.likes.count()                                           # Return the total number of likes for the post.
+
+
     # Assign a string representation for each post object. This will be used in the admin panel. 
     # This will show the title of the post and the author's username.
     def __str__(self):
