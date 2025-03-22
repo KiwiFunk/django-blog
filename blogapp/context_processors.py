@@ -6,5 +6,5 @@ def category_menu(request):
     """
     return {
         #Return a dictionary containing the category list.
-        'cat_menu': Category.objects.all()
+        'cat_menu': Category.objects.all().order_by('name')
     }
