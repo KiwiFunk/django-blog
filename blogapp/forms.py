@@ -15,7 +15,7 @@ class PostForm(forms.ModelForm):            # ModelForm allows for creating form
 
             'summary': forms.Textarea(attrs={
                 'class': 'form-control', 
-                'placeholder': 'Enter a brief summary of the post to be displayed on the feed...',
+                'placeholder': 'Enter a brief summary of the post to be displayed on the feed (Optional)...',
                 'rows': 4
             }),
 
