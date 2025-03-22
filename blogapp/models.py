@@ -22,7 +22,8 @@ class Post(models.Model):
     summary = models.TextField(blank=True, null=True)                       # A brief summary of the post to be displayed in the feed. (Optional)
     body = models.TextField()                                               # The body of the post. e.g the content.
     created_at = models.DateTimeField(auto_now_add=True)                    # The date and time the post was created.     
-    category = models.CharField(max_length=255, default='Uncategorized')    # The category of the post.      
+    category = models.CharField(max_length=255, default='Uncategorized')    # The category of the post.
+    likes = models.ManyToManyField(User, related_name='blog_posts')         # Users that liked the post. A user can like multiple posts & a post can be liked by multiple users. == ManyToMany relationship.   
 
     # Assign a string representation for each post object. This will be used in the admin panel. 
     # This will show the title of the post and the author's username.
