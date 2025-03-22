@@ -1,7 +1,12 @@
 from django import forms
 from .models import Post, Category
 
-categories = list(Category.objects.values_list('name', 'name'))  # Cast the QuerySet to a list of tuples. Our tuple is (database value, human-readable value).
+# Cast the QuerySet to a list of tuples. Our tuple is (database value, human-readable value).
+try:
+    categories = list(Category.objects.values_list('name', 'name'))
+except:
+    categories = [('Uncategorized', 'Uncategorized')]
+
 
 class PostForm(forms.ModelForm):            # ModelForm allows for creating form fields for our model.
     class Meta:

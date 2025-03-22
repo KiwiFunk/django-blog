@@ -2,18 +2,24 @@
 
 {% block content %}
 
-<h1>Posts:</h1>
+{% if category_posts %}
+<h1>{{ cats }}</h1>
 
-{% for post in object_list %}
+{% for post in category_posts %}
     <a href="{% url 'post_details' post.pk %}"><h2>{{ post.title }}</h2></a>      {# Use Django's url template tag to create a link to the post_details view we defined in the urls.py file. #}
     <h5>{{ post.author }}</h5>
     <h6>{{ post.category }} | Published: {{ post.created_at|date:"DATE_FORMAT" }}</h6>
     {% if post.summary %}
         <p>{{ post.summary }}</p>
     {% else %}
-        <p>{{ post.body|safe|truncatewords:40 }}</p>
+        <p>{{ post.body|safe|truncatewords:20 }}</p>
     {% endif %}
     <hr>
 {% endfor %}
+
+{% else %}
+    <h1>No posts in this category yet.</h1>
+{% endif %}
+
 
 {% endblock %}

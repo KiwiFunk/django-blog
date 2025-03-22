@@ -30,3 +30,10 @@ class DeletePostView(DeleteView):               # DeleteView is used to delete a
     model = Post
     template_name = 'delete_post.html'          # The template that this view will use to generate the HTML.
     success_url = reverse_lazy('home')          # Redirect to the home page after deleting the post.
+
+def CategoryView(request, cat):
+    category_posts = Post.objects.filter(category=cat).order_by('-created_at')
+    return render(request, 'categories.html', {
+        'cats': cat,
+        'category_posts': category_posts
+    })
