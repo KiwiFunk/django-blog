@@ -10,7 +10,10 @@ class UserRegistrationView(generic.CreateView):
     template_name = 'registration/registration.html'
     success_url = reverse_lazy('login')                 # Redirect to login after successful registration.
 
-class UserEditView(generic.CreateView):
+class UserEditView(generic.UpdateView):
     form_class = UserChangeForm
     template_name = 'registration/edit_profile.html'
     success_url = reverse_lazy('home')                  # Redirect to home after updating the profile.
+
+    def get_object(self):                               # Return the currente user object to the view.
+        return self.request.user
