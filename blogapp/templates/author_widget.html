@@ -1,0 +1,59 @@
+<div class="card mb-5">
+    <div class="card-body">
+        <div class="d-flex align-items-center gap-3">
+            {% if author.userprofile.profile_pic %}
+            <img src="{{ author.userprofile.profile_pic.url }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ author }}">
+            {% else %}
+            {# <img src="{% static 'img/default_profile_pic.jpg' %}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ author }}"> #}
+            {% endif %}
+            <div>
+                <h5 class="card-title mb-0">{{ author }}</h5>
+
+                <!-- Social Media links -->
+                <ul class="list-inline mb-1 mt-1">
+                    {% if author.userprofile.website_url %}
+                    <li class="list-inline-item">
+                        <a href="{{ author.userprofile.website_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                            <i class="bi bi-globe"></i> Website
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% if author.userprofile.twitter_url %}
+                    <li class="list-inline-item">
+                        <a href="{{ author.userprofile.twitter_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                            <i class="bi bi-twitter-x"></i> Twitter
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% if author.userprofile.github_url %}
+                    <li class="list-inline-item">
+                        <a href="{{ author.userprofile.github_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% if author.userprofile.artstation_url %}
+                    <li class="list-inline-item">
+                        <a href="{{ author.userprofile.artstation_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                            <i class="bi bi-palette"></i> ArtStation
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% if author.userprofile.linkedin_url %}
+                    <li class="list-inline-item">
+                        <a href="{{ author.userprofile.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                            <i class="bi bi-linkedin"></i> LinkedIn
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <p class="card-text text-muted">{{ author.userprofile.bio }}</p>
+            </div>
+        </div>
+    </div>
+</div>
