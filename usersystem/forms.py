@@ -8,7 +8,7 @@ class RegisterForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):                                    # This method is called when the form is initialized.
         super(RegisterForm, self).__init__(*args, **kwargs)                 # Call the parent class's __init__() method.
