@@ -9,4 +9,5 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),            # Using Django Authentication System.
     path('users/', include('usersystem.urls')),                     # Our usersystem app.
     path('summernote/', include('django_summernote.urls')),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
