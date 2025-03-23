@@ -22,9 +22,9 @@ class UserProfilePageView(DetailView):
 
 class EditProfilePageView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = UserProfile
-    template_name = 'edit_profile_page.html'
+    template_name = 'edit_profile_page.html'        # Set the template for the view.
     success_url = reverse_lazy('home')
-    form_class = EditUserProfilePageForm
+    form_class = EditUserProfilePageForm            # Set the form class for the view. (In forms.py)
 
     def test_func(self):
         # Get the profile being edited

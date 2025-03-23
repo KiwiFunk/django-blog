@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Edit Profile Page | {% endblock %}
 
@@ -9,9 +10,67 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <h2 class="card-title mb-4">Edit Profile</h2>
+                    
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        
+                        <!-- Profile Picture Section -->
+                        <div class="mb-4">
+                            <label class="form-label">Profile Picture</label>
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                {% if user.userprofile.profile_pic %}
+                                    <img src="{{ user.userprofile.profile_pic.url }}" 
+                                         class="rounded-circle" 
+                                         width="100" 
+                                         height="100" 
+                                         style="object-fit: cover;"
+                                         alt="Current profile picture">
+                                {% else %}
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                                         style="width: 100px; height: 100px;">
+                                        <i class="bi bi-person-circle text-muted" style="font-size: 3rem;"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    {{ form.profile_pic }}
+                                    {% if user.userprofile.profile_pic %}
+                                        <div class="form-text">Upload new image to replace current picture</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bio Section -->
+                        <div class="mb-4">
+                            <label class="form-label">Bio</label>
+                            {{ form.bio }}
+                        </div>
+
+                        <!-- Social Links Section -->
+                        <div class="mb-4">
+                            <label class="form-label">Social Links</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                {{ form.website_url }}
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-twitter-x"></i></span>
+                                {{ form.twitter_url }}
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-github"></i></span>
+                                {{ form.github_url }}
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-palette"></i></span>
+                                {{ form.artstation_url }}
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="bi bi-linkedin"></i></span>
+                                {{ form.linkedin_url }}
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
