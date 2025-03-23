@@ -17,6 +17,10 @@ class UserProfilePageView(DetailView):
         context["page_user"] = page_user                                                # Add the user profile object to the context.
         return context                                                                  # Return the context dictionary.            
 
+class EditProfilePageView(generic.UpdateView):
+    model = UserProfile
+    template_name = 'edit_profile_page.html'
+   
 class UserRegistrationView(generic.CreateView):
     form_class = RegisterForm
     template_name = 'registration/registration.html'
