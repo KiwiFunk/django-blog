@@ -15,6 +15,26 @@ class Category(models.Model):
     def __str__(self):
         return self.name                                                    # Assign a string representation for each category object. This will be used in the admin panel.
 
+class UserProfile(models.Model):
+    """
+    This model extends the default User model provided by Django. 
+    We can add additional fields to the user model by creating a one-to-one relationship with the User model.
+    """
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)      # A one-to-one relationship with the User model. When the user is deleted, their profile is also deleted to prevent orphaned data.
+    bio = models.TextField()                                                    # A brief bio of the user.
+    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile/') # The profile picture of the user. (Optional)
+    website_url = models.CharField(max_length=255, null=True, blank=True)       # The user's website URL. (Optional)
+    twitter_url = models.CharField(max_length=255, null=True, blank=True)       # The user's Twitter URL. (Optional)
+    github_url = models.CharField(max_length=255, null=True, blank=True)        # The user's GitHub URL. (Optional)
+    artstation_url = models.CharField(max_length=255, null=True, blank=True)    # The user's ArtStation URL. (Optional)
+    linkedin_url = models.CharField(max_length=255, null=True, blank=True)      # The user's LinkedIn URL. (Optional)
+
+    def __str__(self):
+        return str(self.user)                                               # Assign a string representation for each user profile object. This will be used in the admin panel.
+
+    def get_absolute_url(self):
+        return reverse('home')                                              # Redirect to the home page after creating a new user profile.
+
 class Post(models.Model):
     title = models.CharField(max_length=255)                                    # The title of the post.
     title_tag = models.CharField(max_length=100, blank=True, null=True)         # A tagline for the post. (Optional)
