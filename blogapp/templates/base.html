@@ -48,7 +48,9 @@
                     <!-- Right side auth buttons -->
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                        <!-- When performing a logout we need to send a POST request and include the CSRF token for security. -->
+                            <a class="btn btn-outline-primary me-2" href="{% url 'edit_profile' %}">Edit Profile</a>
+
+                            <!-- When performing a logout we need to send a POST request and include the CSRF token for security. -->
                             <form method="POST" action="{% url 'logout' %}" class="navbar-nav">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-outline-danger">Logout</button>
