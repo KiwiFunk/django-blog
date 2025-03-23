@@ -77,3 +77,16 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_details', args=[str(self.id)])                 # Redirect to the post details page after creating a new post.
         
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE)   # The post that the comment belongs to. When the post is deleted, the comments are also deleted to prevent orphaned data.
+    user = models.ForeignKey(User, on_delete=models.CASCADE)                            # The user that created the comment. When the user is deleted, their comments are also deleted to prevent orphaned data.
+    body = models.TextField()                                                           # The body of the comment.
+    created_at = models.DateTimeField(auto_now_add=True)                                # The date and time the comment was created.
+    likes = models.ManyToManyField(User, related_name='comment_likes')                  # Users that liked the comment. A user can like multiple comments & a comment can be liked by multiple users. == ManyToMany relationship.
+    dislikes = models.ManyToManyField(User, related_name='comment_dislikes')            # Users that disliked the comment.
+
+    def total_likes(self):
+        return self.likes.count()                                                       # Return the total number of likes for the comment.
+    
+    def total_dislikes(self):
+        return self.dislikes.count()                                                    # Return the total number of dislikes for the comment.
