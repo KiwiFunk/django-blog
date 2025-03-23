@@ -1,73 +1,99 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{% if post.title_tag %}
-{{ post.title_tag }} | 
-{% else %}
-{{ post.title }} | 
-{% endif %}
+{% if post.title_tag %}{{ post.title_tag }} | {% else %}{{ post.title }} | {% endif %}
 {% endblock %}
 
 {% block content %}
-
-<h1>{{post.title}}</h1>
-<h5>By: {{post.author}}</h5>
-<div class="d-flex align-items-end">
-    <h6 class="w-100">{{ post.category }} | Published: {{post.created_at|date:"DATE_FORMAT"}}</h6>
-
-    <!-- Likes/Dislikes Section -->
-    <div class="d-flex gap-3">
-        {% if user.is_authenticated %}
-            <div class="d-flex align-items-center gap-1">
-                <form action="{% url 'like_post' post.pk %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-link p-0 text-decoration-none">
-                        {% if user in post.likes.all %}
-                            <i class="bi bi-hand-thumbs-up-fill text-success"></i>
-                        {% else %}
-                            <i class="bi bi-hand-thumbs-up text-success"></i>
-                        {% endif %}
-                    </button>
-                </form>
-                <small>{{ post.total_likes }}</small>
-            </div>
-            <div class="d-flex align-items-center gap-1">
-                <form action="{% url 'dislike_post' post.pk %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-link p-0 text-decoration-none">
-                        {% if user in post.dislikes.all %}
-                            <i class="bi bi-hand-thumbs-down-fill text-danger"></i>
-                        {% else %}
-                            <i class="bi bi-hand-thumbs-down text-danger"></i>
-                        {% endif %}
-                    </button>
-                </form>
-                <small>{{ post.total_dislikes }}</small>
-            </div>
-        {% else %}
-            <div class="d-flex align-items-center gap-1">
-                <i class="bi bi-hand-thumbs-up text-muted"></i>
-                <small class="text-muted">{{ post.total_likes }}</small>
-            </div>
-            <div class="d-flex align-items-center gap-1">
-                <i class="bi bi-hand-thumbs-down text-muted"></i>
-                <small class="text-muted">{{ post.total_dislikes }}</small>
-            </div>
+<article class="blog-post">
+    <!-- Navigation & Controls -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Posts
+        </a>
+        {% if user.is_authenticated and user.id == post.author.id %}
+        <div class="btn-group" role="group">
+            <a href="{% url 'edit_post' post.pk %}" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
+            <a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i> Delete
+            </a>
+        </div>
         {% endif %}
     </div>
 
-    {% if user.is_authenticated and user.id == post.author.id %}
-    <div class="flex-shrink-1 d-flex gap-2 ms-4">
-        <a href="{% url 'edit_post' post.pk %}" class="btn btn-secondary">Edit</a>
-        <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
-    </div>
+    {% if post.header_image %}
+        <div class="position-relative mb-4">
+            <img src="{{ post.header_image.url }}" class="img-fluid rounded shadow-sm w-100" style="max-height: 300px; object-fit: cover;" alt="{{ post.title }}">
+        </div>
     {% endif %}
-</div>
-<hr>
-<br/>
-<p>{{post.body|safe }}</p>
 
-<br/>
-<a href="{% url 'home' %}" class="mb-5 btn btn-secondary">Back</a>
+    <!-- Post Header -->
+    <div class="mb-5">
+        <h1 class="display-4 mb-4">{{post.title}}</h1>
+        
+        <!-- Meta Information Row -->
+        <div class="d-flex justify-content-between align-items-center text-muted  pb-3 border-bottom">
+            <div class="d-flex flex-wrap gap-4">
+                <div>
+                    <i class="bi bi-person-circle"></i>
+                    <span>{{post.author}}</span>
+                </div>
+                <div>
+                    <i class="bi bi-calendar3"></i>
+                    <span>{{post.created_at|date:"DATE_FORMAT"}}</span>
+                </div>
+                <div>
+                    <i class="bi bi-tag"></i>
+                    <a href="{% url 'category' post.category|lower|slugify %}" class="text-decoration-none">{{ post.category }}</a>
+                </div>
+            </div>
 
+            <!-- Likes/Dislikes Section -->
+            <div class="d-flex gap-3">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'like_post' post.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link p-0 text-decoration-none d-inline-flex align-items-center gap-1">
+                            {% if user in post.likes.all %}
+                                <i class="bi bi-hand-thumbs-up-fill text-success"></i>
+                            {% else %}
+                                <i class="bi bi-hand-thumbs-up text-success"></i>
+                            {% endif %}
+                            <small>{{ post.total_likes }}</small>
+                        </button>
+                    </form>
+                    <form action="{% url 'dislike_post' post.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link p-0 text-decoration-none d-inline-flex align-items-center gap-1">
+                            {% if user in post.dislikes.all %}
+                                <i class="bi bi-hand-thumbs-down-fill text-danger"></i>
+                            {% else %}
+                                <i class="bi bi-hand-thumbs-down text-danger"></i>
+                            {% endif %}
+                            <small>{{ post.total_dislikes }}</small>
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-hand-thumbs-up text-muted"></i>
+                        <small>{{ post.total_likes }}</small>
+                    </div>
+                    <div class="d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-hand-thumbs-down text-muted"></i>
+                        <small>{{ post.total_dislikes }}</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Content -->
+    <div class="blog-content mb-5 pb-5 border-bottom">
+        <div class="mx-auto" style="max-width: 92ch; font-size: 1.125rem; line-height: 1.75;">
+            {{post.body|safe}}
+        </div>
+    </div>
+</article>
 {% endblock %}
