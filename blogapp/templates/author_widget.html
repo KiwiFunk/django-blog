@@ -17,6 +17,14 @@
 
                 <!-- Social Media links -->
                 <ul class="list-inline mb-1 mt-1">
+
+                    <li class="list-inline-item">
+                        <!-- Provide URL, and argument it expects (<ink:pk>) -->
+                        <a href="{% url 'user_profile' post.author.userprofile.id %}" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                            <i class="bi bi-person-circle"></i> Profile Page
+                        </a>
+                    </li>
+
                     {% if author.userprofile.website_url %}
                     <li class="list-inline-item">
                         <a href="{{ author.userprofile.website_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
