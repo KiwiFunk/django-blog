@@ -7,11 +7,11 @@
 {% if user.is_authenticated %}
 <h2 class="mb-5">Create post:</h2>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">  {# Include the enctype attribute to allow file uploads. #}
     {% csrf_token %}
     <div class="form-group mb-5">
-        {{ form.media }}            {# Include the form media to render the form's CSS and JavaScript. #}
-        {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
+        {{ form.media }}                            {# Include the form media to render the form's CSS and JavaScript. #}
+        {{ form.as_p }}                             {# Display the form fields as paragraphs (p element). #}
         <button class="btn btn-secondary">Post</button>
     </div>
 </form>
