@@ -1,7 +1,114 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_user.user.username }}'s Profile | {% endblock %}
 
 {% block content %}
+<div class="container py-5">
+    <!-- Profile Header -->
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-4">
+                        {% if page_user.profile_pic %}
+                            <img src="{{ page_user.profile_pic.url }}" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;" alt="{{ page_user.user.username }}">
+                        {% else %}
+                            <img src="{% static 'blogapp/images/default_profile_pic.jpg' %}" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;" alt="{{ page_user.user.username }}">
+                        {% endif %}
+                        
+                        <div>
+                            <h1 class="mb-0">{{ page_user.user.username }}</h1>
+                            {% if page_user.user.first_name or page_user.user.last_name %}
+                                <p class="text-muted mb-2">{{ page_user.user.first_name }} {{ page_user.user.last_name }}</p>
+                            {% endif %}
+                            
+                            <!-- Social Links -->
+                            <div class="d-flex gap-3 mt-2">
+                                {% if page_user.website_url %}
+                                    <a href="{{ page_user.website_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                                        <i class="bi bi-globe"></i>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if page_user.twitter_url %}
+                                    <a href="{{ page_user.twitter_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                                        <i class="bi bi-twitter-x"></i>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if page_user.github_url %}
+                                    <a href="{{ page_user.github_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                                        <i class="bi bi-github"></i>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if page_user.artstation_url %}
+                                    <a href="{{ page_user.artstation_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                                        <i class="bi bi-palette"></i>
+                                    </a>
+                                {% endif %}
+                                
+                                {% if page_user.linkedin_url %}
+                                    <a href="{{ page_user.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-muted">
+                                        <i class="bi bi-linkedin"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
 
-<h1>{{ page_user }}'s Profile:</h1>
+                    {% if page_user.bio %}
+                        <div class="mt-4">
+                            <h5 class="text-muted mb-3">About</h5>
+                            <p class="mb-0">{{ page_user.bio }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- User's Posts -->
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h3 class="mb-4">{{ page_user.user.username }}'s Latest Posts</h3>
+            
+            {% for post in page_user.user.post_set.all %}
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="{% url 'post_details' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a>
+                        </h4>
+                        <h6 class="card-subtitle mb-3 text-muted">
+                            <a href="{% url 'category' post.category|lower|slugify %}" class="text-decoration-none text-muted">{{ post.category }}</a> | 
+                            {{ post.created_at|date:"DATE_FORMAT" }}
+                        </h6>
+                        
+                        {% if post.summary %}
+                            <p class="card-text">{{ post.summary }}</p>
+                        {% else %}
+                            <p class="card-text">{{ post.body|safe|truncatewords:50 }}</p>
+                        {% endif %}
+                        
+                        <div class="d-flex gap-3">
+                            <span class="d-inline-flex align-items-center gap-1">
+                                <i class="bi bi-hand-thumbs-up text-muted"></i>
+                                <small>{{ post.total_likes }}</small>
+                            </span>
+                            <span class="d-inline-flex align-items-center gap-1">
+                                <i class="bi bi-hand-thumbs-down text-muted"></i>
+                                <small>{{ post.total_dislikes }}</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-info">
+                    No posts yet.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
