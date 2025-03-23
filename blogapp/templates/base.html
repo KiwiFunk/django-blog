@@ -48,13 +48,45 @@
                     <!-- Right side auth buttons -->
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                            <a class="btn btn-outline-primary me-2" href="{% url 'edit_profile' %}">Edit Profile</a>
 
-                            <!-- When performing a logout we need to send a POST request and include the CSRF token for security. -->
-                            <form method="POST" action="{% url 'logout' %}" class="navbar-nav">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-danger">Logout</button>
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if user.userprofile.profile_pic %}
+                                    <img src="{{ user.userprofile.profile_pic.url }}" class="rounded-circle" width="32" height="32" style="object-fit: cover;" alt="{{ user.username }}">
+                                {% else %}
+                                    <i class="bi bi-person-circle fs-5"></i>
+                                {% endif %}
+                                <span>{{ user.username }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{% url 'user_profile' user.userprofile.id %}">
+                                        <i class="bi bi-person"></i> Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{% url 'edit_profile_page' user.userprofile.id %}">
+                                        <i class="bi bi-pencil-square"></i> Edit Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{% url 'edit_profile' %}">
+                                        <i class="bi bi-gear"></i> User Settings
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <!-- When performing a logout we need to send a POST request and include the CSRF token for security. -->
+                                    <form method="POST" action="{% url 'logout' %}" class="dropdown-item p-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item d-flex align-items-center gap-2 text-danger">
+                                            <i class="bi bi-box-arrow-right"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                  
                         {% else %}
                         <!-- CSRF and POST is already part of Django's built in forms we are using -->
                             <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
