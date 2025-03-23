@@ -33,7 +33,7 @@ class PostForm(forms.ModelForm):            # ModelForm allows for creating form
 class EditForm(forms.ModelForm):            # ModelForm allows for creating form fields for our model.
     class Meta:
         model = Post
-        fields = ['title', 'title_tag', 'category', 'summary', 'body']  
+        fields = ['title', 'title_tag', 'category', 'summary', 'body', 'header_image']  
 
         # Widgets takes a python dictionary to define the attributes of the form fields.
         # Using form-control class from Bootstrap to style the form fields.

@@ -12,7 +12,7 @@ Editing {{ post.title }} |
 
         <h2 class="mb-5">Edit post:</h2>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">  {# Include the enctype attribute to allow file uploads. #}
             {% csrf_token %}
             <div class="form-group mb-5">
                 {{ form.media }}            {# Include the form media to render the form's CSS and JavaScript. #}
