@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse_lazy
-from .forms import RegisterForm, EditProfileForm
+from .forms import RegisterForm, EditProfileForm, NewPasswordForm
 from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 class UserRegistrationView(generic.CreateView):
@@ -20,7 +19,7 @@ class UserEditView(generic.UpdateView):
         return self.request.user
     
 class PasswordsChangeView(PasswordChangeView):
-    form_class = PasswordChangeForm
+    form_class = NewPasswordForm
     success_url = reverse_lazy('password_success')      # Redirect to password_success after changing the password.
 
 def password_success(request):
