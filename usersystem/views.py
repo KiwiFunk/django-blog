@@ -20,6 +20,8 @@ class UserProfilePageView(DetailView):
 class EditProfilePageView(generic.UpdateView):
     model = UserProfile
     template_name = 'edit_profile_page.html'
+    success_url = reverse_lazy('home')                                                  # Redirect to home after updating the profile.
+    fields = ['bio', 'profile_pic', 'website_url', 'twitter_url', 'github_url', 'artstation_url', 'linkedin_url'] # Fields to be displayed in the form.
    
 class UserRegistrationView(generic.CreateView):
     form_class = RegisterForm
