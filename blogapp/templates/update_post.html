@@ -15,6 +15,7 @@ Editing {{ post.title }} |
         <form method="POST">
             {% csrf_token %}
             <div class="form-group mb-5">
+                {{ form.media }}            {# Include the form media to render the form's CSS and JavaScript. #}
                 {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
                 <button class="btn btn-secondary">Save Changes</button>
             </div>
