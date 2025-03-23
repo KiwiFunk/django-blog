@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Category(models.Model):
@@ -33,7 +35,20 @@ class UserProfile(models.Model):
         return str(self.user)                                               # Assign a string representation for each user profile object. This will be used in the admin panel.
 
     def get_absolute_url(self):
-        return reverse('home')                                              # Redirect to the home page after creating a new user profile.
+        return reverse('home')     
+    
+    def clean(self):
+        """
+        Clean the website URL field to ensure it is a valid URL.
+        """
+        validator = URLValidator()
+        if self.website_url and not self.website_url.startswith(('http://', 'https://')):
+            self.website_url = 'https://' + self.website_url
+        try:
+            if self.website_url:
+                validator(self.website_url)
+        except ValidationError:
+            raise ValidationError({'website_url': 'Enter a valid URL.'})                                         # Redirect to the home page after creating a new user profile.
 
 class Post(models.Model):
     title = models.CharField(max_length=255)                                    # The title of the post.
