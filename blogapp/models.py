@@ -92,4 +92,6 @@ class Comment(models.Model):
         return self.dislikes.count()                                                    # Return the total number of dislikes for the comment.
     
     def __str__(self):
-        return '%s - %s' % (self.post.title, self.user)                                  # Assign a string representation for each comment object. This will be used in the admin panel.
+        truncated_title = ' '.join(self.post.title.split()[:5]) + ('...' if len(self.post.title.split()) > 5 else '')
+        truncated_body = ' '.join(self.body.split()[:10]) + ('...' if len(self.body.split()) > 5 else '')
+        return '%s commented: %s | %s' % (self.user, truncated_body, truncated_title)  # Assign a string representation for each comment object with truncated post title and comment snippet.
