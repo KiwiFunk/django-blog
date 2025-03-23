@@ -3,7 +3,7 @@ from django.views import generic
 from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from .forms import RegisterForm, EditProfileForm, NewPasswordForm
+from .forms import RegisterForm, EditProfileForm, NewPasswordForm, EditUserProfilePageForm
 from django.contrib.auth.views import PasswordChangeView
 from blogapp.models import UserProfile
 from django.shortcuts import redirect
@@ -24,13 +24,13 @@ class EditProfilePageView(LoginRequiredMixin, UserPassesTestMixin, generic.Updat
     model = UserProfile
     template_name = 'edit_profile_page.html'
     success_url = reverse_lazy('home')
-    fields = ['bio', 'profile_pic', 'website_url', 'twitter_url', 'github_url', 'artstation_url', 'linkedin_url']
+    form_class = EditUserProfilePageForm
 
     def test_func(self):
         # Get the profile being edited
         profile = self.get_object()
         # Check if current user is the owner of the profile
-        return self.request.user == profile.user
+        return self.request.user.id == profile.user.id
 
     def handle_no_permission(self):
         messages.error(self.request, "You don't have permission to edit this profile.")
