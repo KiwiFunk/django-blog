@@ -92,4 +92,4 @@ class Comment(models.Model):
         return self.dislikes.count()                                                    # Return the total number of dislikes for the comment.
     
     def __str__(self):
-        return str(self.post) + ' | ' + str(self.user)                                  # Assign a string representation for each comment object. This will be used in the admin panel.
+        return '%s - %s' % (self.post.title, self.user)                                  # Assign a string representation for each comment object. This will be used in the admin panel.
