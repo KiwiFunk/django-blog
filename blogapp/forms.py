@@ -1,5 +1,6 @@
 from django import forms
 from .models import Post, Category
+from django_summernote.widgets import SummernoteWidget
 
 # Cast the QuerySet to a list of tuples. Our tuple is (database value, human-readable value).
 try:
@@ -26,11 +27,7 @@ class PostForm(forms.ModelForm):            # ModelForm allows for creating form
                 'rows': 4
             }),
 
-            'body': forms.Textarea(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Type your post here...',
-                'rows': 14
-            }),
+            'body': SummernoteWidget(),
         }
 
 class EditForm(forms.ModelForm):            # ModelForm allows for creating form fields for our model.
@@ -51,9 +48,5 @@ class EditForm(forms.ModelForm):            # ModelForm allows for creating form
                 'rows': 4
             }),
 
-            'body': forms.Textarea(attrs={
-                'class': 'form-control', 
-                'placeholder': 'Type your post here...',
-                'rows': 14
-            }),
+            'body': SummernoteWidget(),
         }
