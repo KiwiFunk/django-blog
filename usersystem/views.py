@@ -2,9 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.views.generic import DetailView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from .forms import RegisterForm, EditProfileForm, NewPasswordForm
 from django.contrib.auth.views import PasswordChangeView
 from blogapp.models import UserProfile
+from django.shortcuts import redirect
+from django.contrib import messages
 
 # Create your views here.
 class UserProfilePageView(DetailView):
@@ -17,12 +20,27 @@ class UserProfilePageView(DetailView):
         context["page_user"] = page_user                                                # Add the user profile object to the context.
         return context                                                                  # Return the context dictionary.            
 
-class EditProfilePageView(generic.UpdateView):
+class EditProfilePageView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = UserProfile
     template_name = 'edit_profile_page.html'
-    success_url = reverse_lazy('home')                                                  # Redirect to home after updating the profile.
-    fields = ['bio', 'profile_pic', 'website_url', 'twitter_url', 'github_url', 'artstation_url', 'linkedin_url'] # Fields to be displayed in the form.
-   
+    success_url = reverse_lazy('home')
+    fields = ['bio', 'profile_pic', 'website_url', 'twitter_url', 'github_url', 'artstation_url', 'linkedin_url']
+
+    def test_func(self):
+        # Get the profile being edited
+        profile = self.get_object()
+        # Check if current user is the owner of the profile
+        return self.request.user == profile.user
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You don't have permission to edit this profile.")
+        return redirect('home')
+
+    def get_success_url(self):
+        # Redirect to the user's own profile page after successful edit
+        return reverse_lazy('user_profile', kwargs={'pk': self.object.pk})
+
+
 class UserRegistrationView(generic.CreateView):
     form_class = RegisterForm
     template_name = 'registration/registration.html'

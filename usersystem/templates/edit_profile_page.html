@@ -1,33 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}
-Edit Profile Page | 
-{% endblock %}
+{% block title %}Edit Profile Page | {% endblock %}
 
 {% block content %}
-
-{% if user.is_authenticated %}
-
-    {% if user.id == page_user.user.id %}
-
-        <h2 class="mb-5">Edit profile:</h2>
-
-        <form method="POST" enctype="multipart/form-data">  {# Include the enctype attribute to allow file uploads. #}
-            {% csrf_token %}
-            <div class="form-group mb-5">
-                {{ form.as_p }}             {# Display the form fields as paragraphs (p element). #}
-                <button class="btn btn-secondary">Save Changes</button>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4">Edit Profile</h2>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
             </div>
-        </form>
-    {% else %}
-
-        <h3>ERROR</h3>
-        <h4 class="mb-5">You can only edit your own profile. If you are an Admin, please use the admin panel to perform administration tasks.</h4>
-
-    {% endif %}
-
-{% else %}
-<h4 class="mb-5">You must be logged in to make changes to a profile.</h4>
-{% endif %}
-
+        </div>
+    </div>
+</div>
 {% endblock %}
