@@ -123,3 +123,19 @@ def edit_comment(request, pk):
         return redirect('post_details', pk=comment.post.pk)                 #Redirect back to the post detail page after editing the comment and prevent duplicate form submissions.
     
     return render(request, 'edit_comment.html', {'comment': comment})       #Handle GET requests by prepopulating the edit comment form with the existing comment data.
+
+@login_required                                                             #Use login_required decorator to ensure that only authenticated users can access this view.  
+def delete_comment(request, pk):                                            #Take the Request object and the primary key of the comment as arguments.
+    comment= get_object_or_404(Comment, pk=pk)                              #Get the comment object from the database using its primary key. (or 404 if not found)
+    post_pk = comment.post.pk                                               #Store the primary key of the post that the comment belongs to.
+
+    #Check if the current user is the author of the comment
+    if request.user != comment.user:
+        messages.error(request, "You can only delete your own comments.")
+        return redirect('post_details', pk=post_pk)
+
+    if request.user == comment.user:
+        comment.delete()                            
+        messages.success(request, "Comment deleted successfully.")
+
+    return redirect('post_details', pk=post_pk)                             #Redirect back to the post detail page after deleting the comment
