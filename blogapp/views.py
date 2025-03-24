@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, FeaturedPost
 from .forms import PostForm, EditForm
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
@@ -43,6 +43,11 @@ def CategoryView(request, cat):
         'cats': cat.replace('-', ' ').title(),
         'category_posts': category_posts
     })
+
+class FeaturedPostView(ListView):               # use ListView to display a list of objects from the FeaturedPost model.
+    model = FeaturedPost
+    template_name = 'featured_posts.html'
+    ordering = ['-created_at']
 
 def PostLikeView(request, pk):
     post = get_object_or_404(Post, id=pk)       # Get the post object with the given id. (404 if not found)
