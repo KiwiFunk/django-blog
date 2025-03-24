@@ -3,6 +3,54 @@
 <div class="comments-section mt-5 mb-5">
     <h4 class="mb-4">Comments:</h4>
 
+    {% if user.is_authenticated %}
+        <!-- Inline Comment Form -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex gap-3">
+                    <!-- Current User's Profile Picture -->
+                    <div class="flex-shrink-0">
+                        {% if user.userprofile.profile_pic %}
+                            <img src="{{ user.userprofile.profile_pic.url }}" 
+                                class="rounded-circle" 
+                                width="48" 
+                                height="48" 
+                                style="object-fit: cover;" 
+                                alt="{{ user.username }}">
+                        {% else %}
+                            <img src="{% static 'blogapp/images/default_profile_pic.jpg' %}" 
+                                class="rounded-circle" 
+                                width="48" 
+                                height="48" 
+                                style="object-fit: cover;" 
+                                alt="Default profile">
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Comment Form -->
+                    <div class="flex-grow-1">
+                        <form action="{% url 'add_comment' post.pk %}" method="POST" class="comment-form">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <textarea name="body" 
+                                        class="form-control" 
+                                        rows="3" 
+                                        placeholder="Write a comment..."
+                                        required></textarea>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">
+                                    Post Comment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Display Comments -->
     {% for comment in post.comments.all %}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-body">

@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Category, Comment
 from .forms import PostForm, EditForm
@@ -89,3 +90,16 @@ def CommentDislikeView(request, pk):
     
     # Redirect back to the post detail page
     return HttpResponseRedirect(reverse('post_details', args=[str(comment.post.pk)]))
+
+@login_required                                     # Django decorator to ensure that only authenticated users can access this view.
+def add_comment(request, pk):
+    post = get_object_or_404(Post, pk=pk)           # Get the post object with the given id. (404 if not found)
+    if request.method == 'POST':                    # If the request method is POST (Creating a new comment)
+        body = request.POST.get('body')             # Get the body of the comment from the form.
+        if body:
+            Comment.objects.create(                 # Assign the rest of the required fields and create the new comment object.
+                post=post,
+                user=request.user,
+                body=body
+            )
+    return redirect('post_details', pk=pk)
