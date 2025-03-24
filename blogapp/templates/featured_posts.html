@@ -1,5 +1,7 @@
 {% load static %}
 
+<h1 class="display-4 mb-5 text-center">Featured Posts</h1>
+
 <div class="mb-5">
     <div id="featuredPostsCarousel" class="carousel slide rounded-4 overflow-hidden shadow-sm" data-bs-ride="carousel">
         <!-- Indicators -->
@@ -22,17 +24,18 @@
                     {% if post.header_image %}
                         <img src="{{ post.header_image.url }}" 
                              class="d-block w-100" 
+                             id="carousel-image"
                              alt="{{ post.title }}" 
-                             style="height: 400px; object-fit: cover;">
+                             style="height: 500px; object-fit: cover;">
                     {% else %}
-                        <div class="bg-secondary w-100" style="height: 400px;"></div>
+                        <div id="fallback-image" class="bg-secondary w-100" style="height: 500px;"></div>
                     {% endif %}
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2>{{ post.title }}</h2>
+                    <div class="carousel-caption">
+                        <h2 class="h3 mb-2">{{ post.title }}</h2>
                         {% if post.summary %}
-                            <p>{{ post.summary }}</p>
+                            <p class="d-none d-sm-block mb-3">{{ post.summary }}</p>
                         {% else %}
-                            <p>{{ post.body|safe|truncatewords:30 }}</p>
+                            <p class="d-none d-sm-block mb-3">{{ post.body|safe|truncatewords:30 }}</p>
                         {% endif %}
                         <a href="{% url 'post_details' post.pk %}" class="btn btn-primary mb-2">Read More</a>
                     </div>
@@ -67,5 +70,29 @@
         right: 0;
         bottom: 0;
         padding: 2rem;
+    }
+
+    @media (max-width: 576px) {
+        .carousel-caption {
+            padding: 1rem;
+        }
+        .carousel-caption h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .btn {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            margin-bottom: 25px !important;
+        }
+
+        #carousel-image {
+            height: 400px !important;
+        }
+
+        #fallback-image {
+            height: 400px !important;
+        }
     }
 </style>
