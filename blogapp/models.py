@@ -67,6 +67,9 @@ class Post(models.Model):
 
     def total_dislikes(self):
         return self.dislikes.count()                                        # Return the total number of dislikes for the post.
+    
+    def total_comments(self):
+        return self.comments.count()                                        # Return the total number of comments for the post.
 
 
     # Assign a string representation for each post object. This will be used in the admin panel. 

@@ -99,11 +99,19 @@
                     <i class="bi bi-calendar3"></i>
                     <span>{{post.created_at|date:"DATE_FORMAT"}}</span>
                 </div>
+                <!-- Comment Display -->
+                <div class="d-flex gap-3">
+                    <i class="bi bi-chat-dots"></i>
+                    <small>{{ post.total_comments }}</small>
+                </div>
+                
                 <div>
                     <i class="bi bi-tag"></i>
                     <a href="{% url 'category' post.category|lower|slugify %}" class="text-decoration-none">{{ post.category }}</a>
                 </div>
+
             </div>
+
 
             <!-- Likes/Dislikes Section -->
             <div class="d-flex gap-3">

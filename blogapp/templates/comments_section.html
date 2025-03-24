@@ -1,7 +1,15 @@
 {% load static %}
 
 <div class="comments-section mt-5 mb-5">
-    <h4 class="mb-4">Comments:</h4>
+    <span class="d-flex gap-3 align-items-baseline"><h4 class="mb-4">Comments:</h4>
+        <h6>{{ post.total_comments }} 
+            {% if post.total_comments == 1 %}
+                Comment
+            {% else %}
+                Comments
+            {% endif %}
+        </h6>
+    </span>
 
     {% if user.is_authenticated %}
         <!-- Inline Comment Form -->
