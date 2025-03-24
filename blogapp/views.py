@@ -12,6 +12,7 @@ class HomeView(ListView):                       # ListView is used to display a 
     model = Post                                # The model that this view will use to query the database.
     template_name = 'home.html'                 # The template that this view will use to generate the HTML.
     ordering = ['-created_at']                  # The order in which the posts will be displayed on the home page.
+    paginate_by = 6                             # Number of articles per page
 
     # Override the get_context_data method to add additional context data to the template. (Our featured posts)
     def get_context_data(self, **kwargs):
