@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Category(models.Model):
@@ -24,7 +25,11 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)      # A one-to-one relationship with the User model. When the user is deleted, their profile is also deleted to prevent orphaned data.
     bio = models.TextField()                                                    # A brief bio of the user.
-    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile/') # The profile picture of the user. (Optional)
+    profile_pic = CloudinaryField('image',
+        folder='django-blog/profile_pics/',
+        blank=True,
+        null=True
+    )
     website_url = models.CharField(max_length=255, null=True, blank=True)       # The user's website URL. (Optional)
     twitter_url = models.CharField(max_length=255, null=True, blank=True)       # The user's Twitter URL. (Optional)
     github_url = models.CharField(max_length=255, null=True, blank=True)        # The user's GitHub URL. (Optional)
@@ -53,7 +58,11 @@ class UserProfile(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)                                    # The title of the post.
     title_tag = models.CharField(max_length=100, blank=True, null=True)         # A tagline for the post. (Optional)
-    header_image = models.ImageField(null=True, blank=True, upload_to='images/')# The header image for the post. (Optional)
+    header_image = CloudinaryField('image', 
+        folder='django-blog/blog_posts/',
+        blank=True, 
+        null=True
+    )
     author = models.ForeignKey(User, on_delete=models.CASCADE)                  # User that created the post. When the user is deleted, their posts are also deleted to prevent orphaned data.
     summary = models.TextField(blank=True, null=True)                           # A brief summary of the post to be displayed in the feed. (Optional)
     body = models.TextField(blank=True, null=True)                              # The body of the post. e.g the content.
