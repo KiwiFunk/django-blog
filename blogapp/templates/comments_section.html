@@ -1,0 +1,52 @@
+{% load static %}
+
+<div class="comments-section mt-5 mb-5">
+    <h4 class="mb-4">Comments:</h4>
+
+    {% for comment in post.comments.all %}
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex gap-3 align-items-center">
+                    <!-- Profile Picture -->
+                    <div class="flex-shrink-0">
+                        {% if comment.user.userprofile.profile_pic %}
+                            <img src="{{ comment.user.userprofile.profile_pic.url }}" 
+                                 class="rounded-circle" 
+                                 width="48" 
+                                 height="48" 
+                                 style="object-fit: cover;" 
+                                 alt="{{ comment.user.username }}">
+                        {% else %}
+                            <img src="{% static 'blogapp/images/default_profile_pic.jpg' %}" 
+                                 class="rounded-circle" 
+                                 width="48" 
+                                 height="48" 
+                                 style="object-fit: cover;" 
+                                 alt="Default profile">
+                        {% endif %}
+                    </div>
+
+                    <!-- Comment Content -->
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <a href="{% url 'user_profile' comment.user.userprofile.id %}" 
+                               class="text-decoration-none fw-bold text-dark">
+                                {{ comment.user }}
+                            </a>
+                            <small class="text-muted">
+                                <i class="bi bi-clock"></i>
+                                {{ comment.created_at|timesince }} ago
+                            </small>
+                        </div>
+                        <p class="mb-0">{{ comment.body }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+    <div class="text-center text-muted py-4">
+        <i class="bi bi-chat-left-text fs-1 mb-3 d-block"></i>
+        <p class="mb-0">No comments yet. Be the first to comment!</p>
+    </div>
+    {% endfor %}
+</div>
