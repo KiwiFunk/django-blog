@@ -99,3 +99,13 @@ class Comment(models.Model):
         truncated_title = ' '.join(self.post.title.split()[:5]) + ('...' if len(self.post.title.split()) > 5 else '')
         truncated_body = ' '.join(self.body.split()[:10]) + ('...' if len(self.body.split()) > 5 else '')
         return '%s commented: %s | %s' % (self.user, truncated_body, truncated_title)  # Assign a string representation for each comment object with truncated post title and comment snippet.
+    
+class FeaturedPost(models.Model):
+    """
+    Admin users can add featured posts in the admin panel. These will then be used to populate the featured section on the home page.
+    """
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)                            # The post that is featured. When the post is deleted, the featured post is also deleted to prevent orphaned data.
+    created_at = models.DateTimeField(auto_now_add=True)                                # The date and time the featured post was created.
+
+    def __str__(self):
+        return self.post.title                                                          # Assign a string representation for each featured post object. This will be used in the admin panel.
