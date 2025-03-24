@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Post, Category, Comment
 from .forms import PostForm, EditForm
 from django.urls import reverse_lazy, reverse
+from django.contrib import messages
 
 # Create your views here.
 
@@ -103,3 +104,22 @@ def add_comment(request, pk):
                 body=body
             )
     return redirect('post_details', pk=pk)
+
+@login_required                                                             #Use login_required decorator to ensure that only authenticated users can access this view.
+def edit_comment(request, pk):                                      
+    comment = get_object_or_404(Comment, pk=pk)                             #Get the comment object from the database using its primary key. (or 404 if not found)
+    
+    if request.user != comment.user:                                        #Check if the current user is the author of the comment.
+        messages.error(request, "You can only edit your own comments.")     #If not, display an error message and redirect back to the post detail page.
+        return redirect('post_details', pk=comment.post.pk)
+    
+    if request.method == 'POST':                                            #If the request method is POST (Data submitted through the form)
+        body = request.POST.get('body')                                     #Get the new body of the comment from the form. (Using the name attribute of the input field)
+        if body:                                                            #If the body is not empty, assign the required fields for the model and save the comment object.                   
+            comment.body = body
+            comment.is_edited = True
+            comment.save()
+            messages.success(request, "Comment updated successfully.")
+        return redirect('post_details', pk=comment.post.pk)                 #Redirect back to the post detail page after editing the comment
+    
+    return render(request, 'edit_comment.html', {'comment': comment})       #Handle GET requests by prepopulating the edit comment form with the existing comment data.
