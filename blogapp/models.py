@@ -87,6 +87,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)                                # The date and time the comment was created.
     likes = models.ManyToManyField(User, related_name='comment_likes', blank=True)      # Users that liked the comment. A user can like multiple comments & a comment can be liked by multiple users. == ManyToMany relationship.
     dislikes = models.ManyToManyField(User, related_name='comment_dislikes', blank=True)# Users that disliked the comment.
+    is_edited = models.BooleanField(default=False)                                      # A boolean field to indicate if the comment has been edited.
 
     def total_likes(self):
         return self.likes.count()                                                       # Return the total number of likes for the comment.

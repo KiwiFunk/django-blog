@@ -120,6 +120,6 @@ def edit_comment(request, pk):
             comment.is_edited = True
             comment.save()
             messages.success(request, "Comment updated successfully.")
-        return redirect('post_details', pk=comment.post.pk)                 #Redirect back to the post detail page after editing the comment
+        return redirect('post_details', pk=comment.post.pk)                 #Redirect back to the post detail page after editing the comment and prevent duplicate form submissions.
     
     return render(request, 'edit_comment.html', {'comment': comment})       #Handle GET requests by prepopulating the edit comment form with the existing comment data.
