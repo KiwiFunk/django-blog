@@ -4,6 +4,7 @@ from django import forms
 from blogapp.models import UserProfile
 
 class RegisterForm(UserCreationForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))  # Add an email field to the form.
     
     class Meta:
         model = User
