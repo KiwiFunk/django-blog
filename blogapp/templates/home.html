@@ -1,38 +1,116 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<div class="container py-5">
+    <h1 class="display-4 mb-5 text-center">Latest Posts</h1>
 
-<h1>Posts:</h1>
+    <div class="row g-4">
+        {% for post in object_list %}
+        <div class="col-md-6">
+            <a href="{% url 'post_details' post.pk %}" class="text-decoration-none text-dark">
+                <article class="card h-100 border-0 shadow-sm hover-lift">
+                    {% if post.header_image %}
+                        <img src="{{ post.header_image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            {# <i class="bi bi-image text-muted" style="font-size: 3rem;"></i> #}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="card-body p-4 d-flex flex-column">
+                        <!-- Author Section -->
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            {% if post.author.userprofile.profile_pic %}
+                                <img src="{{ post.author.userprofile.profile_pic.url }}" 
+                                    class="rounded-circle border" 
+                                    width="40" 
+                                    height="40" 
+                                    style="object-fit: cover;" 
+                                    alt="{{ post.author }}">
+                            {% else %}
+                                <img src="{% static 'blogapp/images/default_profile_pic.jpg' %}" 
+                                    class="rounded-circle border" 
+                                    width="40" 
+                                    height="40" 
+                                    style="object-fit: cover;" 
+                                    alt="Default profile">
+                            {% endif %}
+                            <div>
+                                <span class="text-decoration-none text-dark fw-medium">
+                                    {{ post.author }}
+                                </span>
+                                <small class="text-muted d-block">{{ post.created_at|date:"M d, Y" }}</small>
+                            </div>
+                        </div>
 
-{% for post in object_list %}
-    <a href="{% url 'post_details' post.pk %}"><h2>{{ post.title }}</h2></a>
-    <a href="{% url 'user_profile' post.author.userprofile.id %}" rel="noopener noreferrer" class="text-decoration-none text-muted">
-        <h5>{{ post.author }}</h5>
-    </a>
-    <h6>
-        <a href="{% url 'category' post.category|lower|slugify %}">{{ post.category }}</a> | 
-        Published: {{ post.created_at|date:"DATE_FORMAT" }} | 
-        <div class="d-inline-flex gap-3">
-            <i class="bi bi-chat-dots"></i>
-            <small>{{ post.total_comments }}</small>
-        </div> |
-        <span class="d-inline-flex gap-3">
-            <span class="d-inline-flex align-items-center gap-1">
-                <i class="bi bi-hand-thumbs-up text-muted"></i>
-                <small>{{ post.total_likes }}</small>
-            </span>
-            <span class="d-inline-flex align-items-center gap-1">
-                <i class="bi bi-hand-thumbs-down text-muted"></i>
-                <small>{{ post.total_dislikes }}</small>
-            </span>
-        </span>
-    </h6>
-    {% if post.summary %}
-        <p>{{ post.summary }}</p>
-    {% else %}
-        <p>{{ post.body|safe|truncatewords:40 }}</p>
-    {% endif %}
-    <hr>
-{% endfor %}
+                        <!-- Post Content -->
+                        <h2 class="h4 card-title mb-3">{{ post.title }}</h2>
 
+                        {% if post.summary %}
+                            <p class="card-text text-muted">{{ post.summary }}</p>
+                        {% else %}
+                            <p class="card-text text-muted">{{ post.body|safe|truncatewords:30 }}</p>
+                        {% endif %}
+
+                        <!-- Footer Section -->
+                        <div class="mt-auto pt-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-secondary bg-opacity-10 text-muted text-decoration-none">
+                                    {{ post.category }}
+                                </span>
+                                
+                                <div class="d-flex gap-3">
+                                    <span class="d-flex align-items-center gap-1">
+                                        <i class="bi bi-chat-dots text-muted"></i>
+                                        <small class="fw-medium">{{ post.total_comments }}</small>
+                                    </span>
+                                    <span class="d-flex align-items-center gap-1">
+                                        <i class="bi bi-hand-thumbs-up {% if user in post.likes.all %}text-success{% else %}text-muted{% endif %}"></i>
+                                        <small class="fw-medium">{{ post.total_likes }}</small>
+                                    </span>
+                                    <span class="d-flex align-items-center gap-1">
+                                        <i class="bi bi-hand-thumbs-down {% if user in post.dislikes.all %}text-danger{% else %}text-muted{% endif %}"></i>
+                                        <small class="fw-medium">{{ post.total_dislikes }}</small>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="p-5 rounded-3 bg-light">
+                <i class="bi bi-journal-text display-1 text-muted mb-3 d-block"></i>
+                <h3 class="h4 text-muted mb-3">No posts yet</h3>
+                <p class="text-muted mb-4">Be the first to share your thoughts!</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'create_post' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-lg me-2"></i>Create Post
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+    .hover-text:hover {
+        color: var(--bs-primary)!important;
+    }
+    .badge {
+        padding: 0.5em 1em;
+        font-weight: 500;
+    }
+</style>
 {% endblock %}
