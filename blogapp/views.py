@@ -13,6 +13,13 @@ class HomeView(ListView):                       # ListView is used to display a 
     template_name = 'home.html'                 # The template that this view will use to generate the HTML.
     ordering = ['-created_at']                  # The order in which the posts will be displayed on the home page.
 
+    # Override the get_context_data method to add additional context data to the template. (Our featured posts)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        featured_posts = FeaturedPost.objects.select_related('post').order_by('-created_at')
+        context['featured_posts'] = [fp.post for fp in featured_posts]
+        return context
+
 class PostDetailView(DetailView):               # DetailView is used to display a single object in detail.
     model = Post
     template_name = 'post_details.html'         # The template that this view will use to generate the HTML.
@@ -43,11 +50,6 @@ def CategoryView(request, cat):
         'cats': cat.replace('-', ' ').title(),
         'category_posts': category_posts
     })
-
-class FeaturedPostView(ListView):               # use ListView to display a list of objects from the FeaturedPost model.
-    model = FeaturedPost
-    template_name = 'featured_posts.html'
-    ordering = ['-created_at']
 
 def PostLikeView(request, pk):
     post = get_object_or_404(Post, id=pk)       # Get the post object with the given id. (404 if not found)
