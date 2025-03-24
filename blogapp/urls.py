@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView, PostDetailView, CreatePostView, UpdatePostView, DeletePostView, CategoryView, PostLikeView, PostDislikeView, CommentLikeView, CommentDislikeView, add_comment
+from .views import HomeView, PostDetailView, CreatePostView, UpdatePostView, DeletePostView, CategoryView, PostLikeView, PostDislikeView, CommentLikeView, CommentDislikeView, add_comment, edit_comment, delete_comment
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),                                      #Call as_view() method to return a callable view that takes a request and returns a response.
@@ -13,4 +13,6 @@ urlpatterns = [
     path('comment/like/<int:pk>', CommentLikeView, name='comment_like'),            #Like a comment.
     path('comment/dislike/<int:pk>', CommentDislikeView, name='comment_dislike'),   #Dislike a comment.
     path('comment/add/<int:pk>/', add_comment, name='add_comment'),                 #Add a comment.  
+    path('comment/edit/<int:pk>/', edit_comment, name='edit_comment'),               #Edit a comment.
+    path('comment/delete/<int:pk>/', delete_comment, name='delete_comment'),           #Delete a comment.
 ]
