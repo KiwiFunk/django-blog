@@ -2,6 +2,11 @@
 
 A modern, feature-rich blogging platform built with Django, featuring user authentication, rich text editing, article management, social interactions, and responsive design.
 
+## Deployment
+[![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)](https://django-assignment-app-fd1cd79d0e6d.herokuapp.com/)
+
+**Live Site:** [Django Blog](https://django-assignment-app-fd1cd79d0e6d.herokuapp.com/)
+
 ## Table of Contents
 - [Project Overview](#project-overview)
 - [Project Planning](#project-planning)
