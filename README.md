@@ -15,6 +15,7 @@ A modern, feature-rich blogging platform built with Django, featuring user authe
   - [Responsive Design](#responsive-design)
 - [Technical Stack](#technical-stack)
 - [AI Usage](#ai-usage)
+- [Deployment](#deployment-process)
 - [Testing](#testing)
 
 ## Project Overview
@@ -273,6 +274,100 @@ def edit_post(request, pk):
 
 #### Copilot summary
 Whilst using copilot as a crutch is a bad idea, and it wont write a whole program for you, it has worked as an excellent assistant here. It has pointed me to key parts of django that I wasnt aware of, and furthered my skills and knowledge of the framework. It also worked as a guide to help me thorough the more complex parts of the process that I was unsure on, such as deployment, and assisted in testing my functions to make sure I hadn't made any glaring errors. I can then perform further testing and validation to check for anything copilot may have missed.
+
+### Deployment Process
+
+The deployment process involved several steps to move from local development to a live production environment:
+
+#### 1. Database Migration (SQLite to PostgreSQL)
+- Created account on Neon.tech for PostgreSQL hosting
+- Set up new database instance with provided credentials
+- Modified database settings in Django:
+```python
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+```
+- Migrated local data using custom management commands:
+```python
+python manage.py dumpdata > data.json
+python manage.py migrate
+python manage.py loaddata data.json
+```
+
+#### 2. Media Storage (Cloudinary Setup)
+- Created Cloudinary account for media hosting
+- Installed required packages:
+```bash
+pip install cloudinary django-cloudinary-storage
+```
+- Added Cloudinary configuration to settings.py:
+```python
+INSTALLED_APPS = [
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
+    'cloudinary',
+]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'your-cloud-name',
+    'API_KEY': 'your-api-key',
+    'API_SECRET': 'your-api-secret'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+```
+- Migrated existing media files to Cloudinary
+
+#### 3. Heroku Deployment
+- Created new Heroku application
+- Installed required dependencies:
+```txt
+gunicorn==21.2.0
+whitenoise==6.6.0
+psycopg2-binary==2.9.9
+django-cloudinary-storage==0.3.0
+dj-database-url==2.1.0
+```
+- Created Procfile with gunicorn configuration:
+```txt
+web: gunicorn django_blog.wsgi
+```
+- Set up environment variables in Heroku:
+  - DATABASE_URL
+  - CLOUDINARY_URL
+  - SECRET_KEY
+  - DEBUG
+  - ALLOWED_HOSTS
+
+#### 4. Static Files Configuration
+- Configured WhiteNoise for static file handling:
+```python
+MIDDLEWARE = [
+    # ...
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+```
+- Collected static files:
+```bash
+python manage.py collectstatic
+```
+
+#### 5. Final Deployment Steps
+- Pushed code to GitHub repository
+- Connected Heroku to GitHub repository
+- Enabled automatic deployments from main branch
+- Performed initial manual deployment
+- Verified all features working in production environment
+
+This deployment process ensures:
+- Secure database hosting with automatic backups
+- Efficient media file delivery through CDN
+- Proper static file handling
+- Scalable production environment
 
 ### Testing
 
