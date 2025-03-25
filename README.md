@@ -378,7 +378,7 @@ This deployment process ensures:
 
 
 #### Lighthouse Testing
-<div align="center">
+<div align="center" style="width: 90%;">
   <div style="display: inline-block; width: 45%;">
     <img src="docs/HomePageLighthouse.webp" width="100%" />
     <p><em>Home Page Lighthouse</em></p>
